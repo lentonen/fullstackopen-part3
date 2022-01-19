@@ -61,10 +61,22 @@ const getRandomId = (min, max) => {
 app.post('/api/persons', (req, res) => {
     const body = req.body
   
-    if (!body.name || !body.number) {
+    if (!body.name) {
       return res.status(400).json({ 
-        error: 'content missing' 
+        error: 'name missing' 
       })
+    }
+
+    if (!body.number) {
+        return res.status(400).json({ 
+            error: 'number missing' 
+        })
+    }
+
+    if (persons.find(person => person.name === body.name)) {
+        return res.status(400).json({ 
+            error: 'name must be unique' 
+        })
     }
   
     const person = {
@@ -75,7 +87,7 @@ app.post('/api/persons', (req, res) => {
   
     persons = persons.concat(person)
     res.json(person)
-  })
+})
 
 const PORT = 3001
 app.listen(PORT, () => {
