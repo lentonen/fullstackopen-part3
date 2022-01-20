@@ -1,10 +1,12 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 const app = express()
 
 app.use(express.json())
 morgan.token('body', (req, res) => JSON.stringify(req.body));
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
+app.use(cors())
 
 let persons = [
     {
@@ -63,7 +65,7 @@ const getRandomId = (min, max) => {
 
 app.post('/api/persons', (req, res) => {
     const body = req.body
-  
+    console.log(body)
     if (!body.name) {
       return res.status(400).json({ 
         error: 'name missing' 
@@ -85,7 +87,7 @@ app.post('/api/persons', (req, res) => {
     const person = {
         id: getRandomId(0,100000),
         name: body.name,
-        numbre: body.number
+        number: body.number
     }
   
     persons = persons.concat(person)
