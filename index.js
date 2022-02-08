@@ -13,6 +13,10 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 app.use(cors())
 app.use(express.static('build'))
 
+app.get('/info', (req, res) => {
+    res.send(`<p>Phonebook has info for ${persons.length} people</p><p>${new Date()}</p>`)
+})  
+
 app.get('/api/persons', (req, res) => {
     Person.find({}).then(persons => {
       res.json(persons)
